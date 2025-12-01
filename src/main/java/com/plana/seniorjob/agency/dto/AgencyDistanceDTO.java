@@ -25,13 +25,13 @@ public class AgencyDistanceDTO {
     private String tel;       // 전화번호
 
     @Schema(description = "위도")
-    private double lat;
+    private Double lat;
 
     @Schema(description = "경도")
-    private double lng;
+    private Double lng;
 
     @Schema(description = "거리 값")
-    private double distanceKm;   // km 단위
+    private Double distanceKm;   // km 단위
 
     @Schema(description = "거리 km, m 변환")
     private String distanceText; // 1.2km 로 보냄

@@ -90,10 +90,19 @@ public class AgencyController {
         // 위치 기반 검색
         dtoList = agencies.stream()
                 .map(a -> {
-                    double dist = agencyLocationService.calculateDistance(
-                            lat, lng,
-                            a.getLat(), a.getLng()
-                    );
+
+                    Double aLat = a.getLat();
+                    Double aLng = a.getLng();
+
+                    // 거리 값
+                    Double dist = null;
+                    String distText = null;
+
+                    // lat/lng 둘 다 null 아닐 때만 계산
+                    if (aLat != null && aLng != null) {
+                        dist = agencyLocationService.calculateDistance(lat, lng, aLat, aLng);
+                        distText = agencyLocationService.formatDistance(dist);
+                    }
 
                     return new AgencySearchDTO(
                             a.getOrgCd(),
@@ -101,13 +110,22 @@ public class AgencyController {
                             a.getZipAddr(),
                             a.getDtlAddr(),
                             a.getTel(),
-                            a.getLat(),
-                            a.getLng(),
+                            aLat,
+                            aLng,
                             dist,
-                            agencyLocationService.formatDistance(dist)
+                            distText
                     );
                 })
-                .sorted((a, b) -> Double.compare(a.getDistanceKm(), b.getDistanceKm()))
+                .sorted((a, b) -> {
+                    Double da = a.getDistanceKm();
+                    Double db = b.getDistanceKm();
+
+                    if (da == null && db == null) return 0;
+                    if (da == null) return 1;     // null은 뒤로
+                    if (db == null) return -1;
+
+                    return Double.compare(da, db);
+                })
                 .toList();
 
         return ResponseEntity.ok(
