@@ -23,10 +23,16 @@ public class AgencyLocationService {
         return agencies.stream()
                 .map(a -> {
 
-                    double dist = calculateDistance(
-                            lat, lng,
-                            a.getLat(), a.getLng()
-                    );
+                    Double aLat = a.getLat();
+                    Double aLng = a.getLng();
+
+                    Double dist = null;
+                    String distStr = null;
+
+                    if (aLat != null && aLng != null) {
+                        dist = calculateDistance(lat, lng, aLat, aLng);
+                        distStr = formatDistance(dist);
+                    }
 
                     return new AgencyDistanceDTO(
                             a.getOrgCd(),
@@ -37,10 +43,15 @@ public class AgencyLocationService {
                             a.getLat(),
                             a.getLng(),
                             dist,
-                            formatDistance(dist)
+                            distStr
                     );
                 })
-                .sorted((a, b) -> Double.compare(a.getDistanceKm(), b.getDistanceKm()))
+                // 거리 null은 맨 뒤로 정렬
+                .sorted((a, b) -> {
+                    if (a.getDistanceKm() == null) return 1;
+                    if (b.getDistanceKm() == null) return -1;
+                    return Double.compare(a.getDistanceKm(), b.getDistanceKm());
+                })
                 .toList();
     }
 
