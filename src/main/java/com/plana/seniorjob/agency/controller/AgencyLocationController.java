@@ -16,7 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/agencies/location")
 @RequiredArgsConstructor
-@Tag(name="기관 조회 API", description = "현재 위치 기반 2km이내 기관 조회 (추후 로그인 필요)")
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name="기관 조회 API", description = "현재 위치 기반 2km이내 기관 조회 (로그인 필요)")
 public class AgencyLocationController {
 
     private final AgencyLocationService agencyLocationService;
