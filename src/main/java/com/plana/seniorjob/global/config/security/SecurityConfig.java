@@ -37,7 +37,7 @@ public class SecurityConfig {
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/h2-console/**").permitAll()
                         .requestMatchers("/auth/**").permitAll() // 로그인, 회원가입
                         // 인증 필요
-                        .requestMatchers("/api/agencies/**").authenticated() // 기관
+                        .requestMatchers("/api/agencies/location/nearby").authenticated() // 기관 위치 조회만 로그인
                         .requestMatchers("/api/jobs/**").authenticated() // 일자리 공고
                         .requestMatchers("/admin/**").authenticated()
 //                .requestMatchers("/api/resumes/**").authenticated() // 이력서 (기관회원만 -> ROLE_AGENCY)?

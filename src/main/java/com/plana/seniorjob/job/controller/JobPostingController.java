@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @SecurityRequirement(name = "bearerAuth")
-@Tag(name="일자리 공고 API", description = "공고 목록 및 상세 조회 (로그인 필요)")
+@Tag(name="일자리 공고 API", description = "공고 목록 및 상세 조회 (모든 회원 로그인 필요)")
 @RestController
 @RequestMapping("/api/jobs")
 @RequiredArgsConstructor
